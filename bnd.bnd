@@ -1,0 +1,3 @@
+Bundle-Name: adyen-payment-method
+Bundle-SymbolicName: com.liferay.demo.commerce.payment
+Bundle-Version: 1.0.0
