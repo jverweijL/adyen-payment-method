@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
 @Component(
 	immediate = true,
 	property = {
-		// TODO enter required service properties
+		"commerce.payment.engine.method.key=" + AdyenCommercePaymentMethod.KEY
 	},
 	service = CommercePaymentMethod.class
 )
