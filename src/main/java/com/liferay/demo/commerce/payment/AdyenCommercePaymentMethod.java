@@ -7,6 +7,8 @@ import com.liferay.commerce.payment.method.CommercePaymentMethod;
 import com.liferay.commerce.payment.request.CommercePaymentRequest;
 import com.liferay.commerce.payment.result.CommercePaymentResult;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import org.osgi.service.component.annotations.Component;
 
@@ -30,6 +32,7 @@ public class AdyenCommercePaymentMethod implements CommercePaymentMethod {
 
 	@Override
 	public CommercePaymentResult completePayment(CommercePaymentRequest commercePaymentRequest) throws Exception {
+		_log.debug("completePayment being called, time to redirect?");
 		return new CommercePaymentResult(
 				null, commercePaymentRequest.getCommerceOrderId(),
 				CommerceOrderConstants.PAYMENT_STATUS_PAID, false, null, null,
@@ -40,7 +43,7 @@ public class AdyenCommercePaymentMethod implements CommercePaymentMethod {
 	public String getDescription(Locale locale) {
 		ResourceBundle resourceBundle = _getResourceBundle(locale);
 
-		return LanguageUtil.get(resourceBundle, "");
+		return LanguageUtil.get(resourceBundle, "adyen-description");
 	}
 
 	@Override
@@ -78,6 +81,7 @@ public class AdyenCommercePaymentMethod implements CommercePaymentMethod {
 
 	@Override
 	public CommercePaymentResult processPayment(CommercePaymentRequest commercePaymentRequest) throws Exception {
+		_log.debug("processPayment being called, time to redirect?");
 		return new CommercePaymentResult(
 				null, commercePaymentRequest.getCommerceOrderId(),
 				CommerceOrderConstants.PAYMENT_STATUS_AUTHORIZED, false, null, null,
@@ -88,5 +92,7 @@ public class AdyenCommercePaymentMethod implements CommercePaymentMethod {
 		return ResourceBundleUtil.getBundle(
 				"content.Language", locale, getClass());
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(AdyenCommercePaymentMethod.class);
 
 }
