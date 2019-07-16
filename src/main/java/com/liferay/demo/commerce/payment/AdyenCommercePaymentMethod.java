@@ -9,8 +9,10 @@ import com.liferay.commerce.payment.result.CommercePaymentResult;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -82,16 +84,44 @@ public class AdyenCommercePaymentMethod implements CommercePaymentMethod {
 	@Override
 	public CommercePaymentResult processPayment(CommercePaymentRequest commercePaymentRequest) throws Exception {
 		_log.debug("processPayment being called, time to redirect?");
+		_log.debug("commercePaymentRequest: " +  commercePaymentRequest);
+
+		AdyenPaymentRequest adyenPaymentRequest =
+				(AdyenPaymentRequest)commercePaymentRequest;
+
+		_log.debug("adyenPaymentRequest: " +  adyenPaymentRequest);
+
+		//TODO put this in property or config
+		String url = "http://localhost:8888/web/clicks-n-bricks/adyen";
+		_log.debug("Redirect url: " + url);
+
+
 		return new CommercePaymentResult(
-				null, commercePaymentRequest.getCommerceOrderId(),
-				CommerceOrderConstants.PAYMENT_STATUS_AUTHORIZED, false, null, null,
+				"ABC123", adyenPaymentRequest.getCommerceOrderId(),
+				-1, true, url, null,
 				Collections.emptyList(), true);
+
+
 	}
 
+	/*private String _getServletUrl(
+			commercePaymentRequest commercePaymentRequest) {
+
+		return StringBundler.concat(
+				_portal.getPortalURL(
+						commercePaymentRequest.getHttpServletRequest()),
+				_portal.getPathModule(), StringPool.SLASH,
+				AuthorizeNetCommercePaymentMethodConstants.
+						START_PAYMENT_SERVLET_PATH);
+	}
+*/
 	private ResourceBundle _getResourceBundle(Locale locale) {
 		return ResourceBundleUtil.getBundle(
 				"content.Language", locale, getClass());
 	}
+
+	@Reference
+	private Portal _portal;
 
 	private static final Log _log = LogFactoryUtil.getLog(AdyenCommercePaymentMethod.class);
 
