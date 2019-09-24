@@ -8,9 +8,12 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AdyenPaymentRequest extends CommercePaymentRequest {
+/**
+ * @author Jan Verweij
+ */
+public class AdyenCommercePaymentRequest extends CommercePaymentRequest {
 
-    public AdyenPaymentRequest(
+    public AdyenCommercePaymentRequest(
             BigDecimal amount, String cancelUrl, long commerceOrderId,
             Locale locale, HttpServletRequest httpServletRequest, String returnUrl,
             String transactionId) {
